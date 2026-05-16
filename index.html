@@ -113,14 +113,19 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            /* Transición suave para cuando entra y SALE el mouse */
+            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
         }
 
+        /* Animación limpia y de escala elegante al pasar el mouse */
         .photo-item:hover {
-            transform: scale(1.04);
+            transform: scale(1.08);
             border-color: var(--accent-color);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+            z-index: 10;
         }
 
+        /* Estilos para que las imágenes reales se adapten perfectamente */
         .photo-item img {
             width: 100%;
             height: 100%;
@@ -133,44 +138,6 @@
             text-align: center;
             padding: 10px;
             color: var(--text-secondary);
-        }
-
-        /* --- CAPA FLOTANTE PREMIUM CON DIFUMINADO --- */
-        .lightbox-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(10, 10, 10, 0.82); /* Fondo oscuro semitransparente */
-            backdrop-filter: blur(18px); /* Difuminado de fondo más elegante */
-            -webkit-backdrop-filter: blur(18px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease-in-out; 
-            cursor: zoom-out;
-        }
-
-        /* Estado activo */
-        .lightbox-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* CORRECCIÓN ESTÉTICA DE LA IMAGEN EN GRANDE */
-        .lightbox-overlay img {
-            max-width: 85vw;  /* Evita que se estire feo a lo ancho */
-            max-height: 85vh; /* Evita que se estire feo a lo alto */
-            width: auto;      /* Conserva su proporción real */
-            height: auto;     /* Conserva su proporción real */
-            object-fit: contain;
-            border: 3px solid rgba(255, 255, 255, 0.08); /* Bordecito elegante */
-            border-radius: 6px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85); /* Sombra dramática de galería */
         }
 
         .social-media {
@@ -190,3 +157,186 @@
 
         .social-link {
             color: #fff;
+            text-decoration: none;
+            background-color: #333;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #000;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .social-media {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MAESTROS DE LA LUZ</h1>
+        <nav>
+            <a href="#leibovitz">Annie Leibovitz</a>
+            <a href="#mccurry">Steve McCurry</a>
+            <a href="#salgado">Sebastião Salgado</a>
+            <a href="#cartier">Henri Cartier-Bresson</a>
+            <a href="#adams">Ansel Adams</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <section id="leibovitz" class="profile-card">
+            <div class="profile-header">
+                <h2>Annie Leibovitz</h2>
+                <div class="specialty">Fotografía de Retrato y Celebridades</div>
+            </div>
+            <p class="bio">
+                Es la retratista más famosa de nuestro tiempo. Fue la primera mujer en exponer su obra en la Galería Nacional de Retratos de Washington D.C. Es conocida por sus retratos íntimos y conceptuales de celebridades para revistas como <i>Rolling Stone</i>, <i>Vanity Fair</i> y <i>Vogue</i>. Su estilo combina una iluminación dramática con puestas en escena teatrales.
+            </p>
+            
+            <div class="gallery-title">Obras Emblemáticas</div>
+            <div class="gallery">
+                <div class="photo-item">
+                    <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
+                </div>
+                <div class="photo-item"><span>Demi Moore embarazada (1991)</span></div>
+                <div class="photo-item"><span>Whoopi Goldberg en tina de leche</span></div>
+                <div class="photo-item"><span>Marilyn Manson y Rose McGowan</span></div>
+                <div class="photo-item"><span>Retrato de la Reina Isabel II</span></div>
+            </div>
+
+            <div class="social-media">
+                <span>Redes y Enlaces:</span>
+                <a href="https://www.instagram.com/annieleibovitz/" target="_blank" class="social-link">Instagram</a>
+                <a href="#" target="_blank" class="social-link">Sitio Oficial</a>
+            </div>
+        </section>
+
+        <section id="mccurry" class="profile-card">
+            <div class="profile-header">
+                <h2>Steve McCurry</h2>
+                <div class="specialty">Fotoperiodismo y Fotografía Documental</div>
+            </div>
+            <p class="bio">
+                Miembro de la prestigiosa agencia Magnum Photos, McCurry es mundialmente reconocido por lograr capturar la esencia de la condición humana a través de sus viajes. Su trabajo abarca conflictos internacionales, culturas en extinción y tradiciones antiguas, destacando siempre por un uso magistral y vibrante del color.
+            </p>
+            
+            <div class="gallery-title">Obras Emblemáticas</div>
+            <div class="gallery">
+                <div class="photo-item"><span>La Niña Afgana (1984)</span></div>
+                <div class="photo-item"><span>Madre e hijo en la ventana (India)</span></div>
+                <div class="photo-item"><span>Pescadores sobre zancos (Sri Lanka)</span></div>
+                <div class="photo-item"><span>Sastre cargando su máquina en el monzón</span></div>
+                <div class="photo-item"><span>Niño azul de Jodhpur</span></div>
+            </div>
+
+            <div class="social-media">
+                <span>Redes y Enlaces:</span>
+                <a href="https://www.instagram.com/stevemccurryofficial/" target="_blank" class="social-link">Instagram</a>
+                <a href="https://stevemccurry.com/" target="_blank" class="social-link">Sitio Oficial</a>
+            </div>
+        </section>
+
+        <section id="salgado" class="profile-card">
+            <div class="profile-header">
+                <h2>Sebastião Salgado</h2>
+                <div class="specialty">Fotografía Socio-Documental y Paisaje</div>
+            </div>
+            <p class="bio">
+                Fotógrafo brasileño famoso por sus proyectos a largo plazo que documentan las realidades de la pobreza, el trabajo manual y los paisajes vírgenes del planeta. Su inconfundible estilo en blanco y negro, lleno de texturas, matices épicos y una profunda empatía social, convierte sus imágenes en verdaderas obras de arte de denuncia universal.
+            </p>
+            
+            <div class="gallery-title">Obras Emblemáticas</div>
+            <div class="gallery">
+                <div class="photo-item"><span>Mina de oro de Serra Pelada (1986)</span></div>
+                <div class="photo-item"><span>Éxodo: Refugiados en Ruanda</span></div>
+                <div class="photo-item"><span>Génesis: Cola de ballena franca</span></div>
+                <div class="photo-item"><span>Indígenas de la Amazonia</span></div>
+                <div class="photo-item"><span>Trabajadores del petróleo en Kuwait</span></div>
+            </div>
+
+            <div class="social-media">
+                <span>Redes y Enlaces:</span>
+                <a href="https://www.instagram.com/sebastiaosalgadooficial/" target="_blank" class="social-link">Instagram</a>
+                <a href="#" target="_blank" class="social-link">Instituto Terra</a>
+            </div>
+        </section>
+
+        <section id="cartier" class="profile-card">
+            <div class="profile-header">
+                <h2>Henri Cartier-Bresson</h2>
+                <div class="specialty">Padre del Fotoperiodismo Moderno</div>
+            </div>
+            <p class="bio">
+                Considerado el fotógrafo más importante del siglo XX. Co-fundador de la Agencia Magnum, teorizó y popularizó el concepto del <b>"instante decisivo"</b>: ese milisegundo exacto donde la forma, la geometría y la emoción se alinean para contar una historia perfecta. Su discreción con su cámara Leica cambió la fotografía callejera para siempre.
+            </p>
+            
+            <div class="gallery-title">Obras Emblemáticas</div>
+            <div class="gallery">
+                <div class="photo-item"><span>Detrás de la estación Saint-Lazare (1932)</span></div>
+                <div class="photo-item"><span>El hombre saltando el charco</span></div>
+                <div class="photo-item"><span>Niño con botellas de vino (Rue Mouffetard)</span></div>
+                <div class="photo-item"><span>Retrato de Alberto Giacometti</span></div>
+                <div class="photo-item"><span>Manifestación en Francia (1936)</span></div>
+            </div>
+
+            <div class="social-media">
+                <span>Redes y Enlaces:</span>
+                <a href="https://www.henricartierbresson.org/" target="_blank" class="social-link">Fundación HCB</a>
+                <a href="#" target="_blank" class="social-link">Magnum Photos</a>
+            </div>
+        </section>
+
+        <section id="adams" class="profile-card">
+            <div class="profile-header">
+                <h2>Ansel Adams</h2>
+                <div class="specialty">Fotografía de Paisaje y Conservacionismo</div>
+            </div>
+            <p class="bio">
+                Famoso por sus majestuosas fotografías en blanco y negro de los paisajes del oeste de EE.UU., especialmente del Parque Nacional Yosemite. Desarrolló, junto a Fred Archer, el famoso <i>"Sistema de Zonas"</i>, una técnica que permitía calcular con precisión matemática la exposición y el revelado para conseguir un rango dinámico perfecto. Fue un pilar del ecologismo fotográfico.
+            </p>
+            
+            <div class="gallery-title">Obras Emblemáticas</div>
+            <div class="gallery">
+                <div class="photo-item"><span>Monolito, la cara de Half Dome (1927)</span></div>
+                <div class="photo-item"><span>Salida de la luna, Hernández (1941)</span></div>
+                <div class="photo-item"><span>Tormenta de invierno en Yosemite</span></div>
+                <div class="photo-item"><span>El río Snake y la cordillera Teton</span></div>
+                <div class="photo-item"><span>Hojas de roble (Estudio de texturas)</span></div>
+            </div>
+
+            <div class="social-media">
+                <span>Redes y Enlaces:</span>
+                <a href="https://www.anseladams.com/" target="_blank" class="social-link">Galería Oficial</a>
+                <a href="https://www.instagram.com/anseladams/" target="_blank" class="social-link">Instagram (Archivo)</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Aplicación Web de Maestros de la Fotografía Mundial</p>
+    </footer>
+
+</body>
+</html>
