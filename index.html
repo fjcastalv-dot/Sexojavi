@@ -20,6 +20,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            transition: filter 0.3s ease;
         }
 
         header {
@@ -113,19 +114,14 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            /* Transición suave para cuando entra y SALE el mouse */
-            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        /* Animación limpia y de escala elegante al pasar el mouse */
         .photo-item:hover {
-            transform: scale(1.08);
+            transform: scale(1.04);
             border-color: var(--accent-color);
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
-            z-index: 10;
         }
 
-        /* Estilos para que las imágenes reales se adapten perfectamente */
         .photo-item img {
             width: 100%;
             height: 100%;
@@ -138,6 +134,54 @@
             text-align: center;
             padding: 10px;
             color: var(--text-secondary);
+        }
+
+        /* --- ESTILOS DEL LIGHTBOX (PANTALLA COMPLETA Y DIFUMINADO) --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* El truco del difuminado de fondo */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Cuando el lightbox está activo */
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .lightbox-overlay.active img {
+            transform: scale(1);
+        }
+
+        /* Texto descriptivo dentro del lightbox si es un marcador */
+        .lightbox-text {
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 20px;
         }
 
         .social-media {
@@ -205,6 +249,7 @@
 
     <div class="container">
 
+        <!-- FOTÓGRAFO 1 -->
         <section id="leibovitz" class="profile-card">
             <div class="profile-header">
                 <h2>Annie Leibovitz</h2>
@@ -232,6 +277,7 @@
             </div>
         </section>
 
+        <!-- FOTÓGRAFO 2 -->
         <section id="mccurry" class="profile-card">
             <div class="profile-header">
                 <h2>Steve McCurry</h2>
@@ -257,6 +303,7 @@
             </div>
         </section>
 
+        <!-- FOTÓGRAFO 3 -->
         <section id="salgado" class="profile-card">
             <div class="profile-header">
                 <h2>Sebastião Salgado</h2>
@@ -282,6 +329,7 @@
             </div>
         </section>
 
+        <!-- FOTÓGRAFO 4 -->
         <section id="cartier" class="profile-card">
             <div class="profile-header">
                 <h2>Henri Cartier-Bresson</h2>
@@ -307,6 +355,7 @@
             </div>
         </section>
 
+        <!-- FOTÓGRAFO 5 -->
         <section id="adams" class="profile-card">
             <div class="profile-header">
                 <h2>Ansel Adams</h2>
@@ -334,9 +383,59 @@
 
     </div>
 
+    <!-- ESTRUCTURA DEL LIGHTBOX (OCULTA POR DEFECTO) -->
+    <div class="lightbox-overlay" id="lightbox">
+        <!-- Aquí se inyectará dinámicamente el contenido (la imagen o el texto) -->
+    </div>
+
     <footer>
         <p>&copy; 2026 - Aplicación Web de Maestros de la Fotografía Mundial</p>
     </footer>
+
+    <!-- INTERACTIVIDAD CON JAVASCRIPT -->
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const photoItems = document.querySelectorAll('.photo-item');
+
+        photoItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const span = item.querySelector('span');
+
+                // Limpiamos el contenido previo del lightbox
+                lightbox.innerHTML = '';
+
+                if (img) {
+                    // Si el contenedor tiene una imagen real, la clonamos para el lightbox
+                    const newImg = document.createElement('img');
+                    newImg.src = img.src;
+                    newImg.alt = img.alt;
+                    lightbox.appendChild(newImg);
+                } else if (span) {
+                    // Si aún es un marcador de posición, mostramos el texto grande
+                    const newText = document.createElement('div');
+                    newText.className = 'lightbox-text';
+                    newText.textContent = span.textContent;
+                    lightbox.appendChild(newText);
+                }
+
+                // Activamos el lightbox con una transición fluida
+                lightbox.classList.add('active');
+            });
+        });
+
+        // Cerrar el lightbox al hacer clic en el fondo difuminado
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // Cerrar también presionando la tecla Escape (Esc)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
 
 </body>
 </html>
