@@ -3,46 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maestros de la Luz - Los Mejores Fotógrafos</title>
+    <title>Maestros de la Luz - Galería de Fotografía</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #ffffff;
-            --text-secondary: #aaaaaa;
-            --accent-color: #ff4757;
+            --bg-color: #ffffff;
+            --bg-secondary: #f9f9f7; /* Un tono crema/beige muy sutil de galería */
+            --border-color: #e5e5e5;
+            --text-color: #111111;
+            --text-secondary: #666666;
+            --accent-color: #000000; /* Estilo minimalista basado en negro puro */
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.7;
+            letter-spacing: 0.2px;
         }
 
         header {
-            background-color: #000;
-            padding: 20px;
+            background-color: var(--bg-color);
+            padding: 30px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 2px solid var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2rem;
-            letter-spacing: 2px;
+            margin: 0 0 15px 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
             transition: color 0.3s;
         }
 
@@ -51,81 +68,91 @@
         }
 
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 25px;
         }
 
         .profile-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 60px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0px; /* Bordes rectos para un look más arquitectónico y de galería */
+            padding: 40px;
+            margin-bottom: 80px;
+            transition: border-color 0.3s;
+        }
+
+        .profile-card:hover {
+            border-color: var(--accent-color);
         }
 
         .profile-header {
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .profile-header h2 {
-            margin: 0;
-            font-size: 2.2rem;
+            margin: 0 0 5px 0;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
             color: var(--accent-color);
         }
 
         .profile-header .specialty {
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-
-        .bio {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: #dddddd;
-        }
-
-        .gallery-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .bio {
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+            color: #333333;
+            max-width: 850px;
+        }
+
+        .gallery-title {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            color: var(--accent-color);
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .photo-item {
             position: relative;
-            background-color: #2a2a2a;
-            border-radius: 4px;
+            background-color: var(--bg-secondary);
+            border-radius: 0px;
             overflow: hidden;
             aspect-ratio: 3 / 2;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 1px solid #333;
-            /* Transición suave para cuando entra y SALE el mouse */
-            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s;
         }
 
-        /* Animación limpia y de escala elegante al pasar el mouse */
+        /* Efecto de elevación limpia e impecable al estilo exposición de arte */
         .photo-item:hover {
-            transform: scale(1.08);
+            transform: translateY(-5px);
             border-color: var(--accent-color);
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             z-index: 10;
         }
 
-        /* Estilos para que las imágenes reales se adapten perfectamente */
         .photo-item img {
             width: 100%;
             height: 100%;
@@ -136,56 +163,74 @@
         .photo-item span {
             font-size: 0.85rem;
             text-align: center;
-            padding: 10px;
-            color: var(--text-secondary);
+            padding: 15px;
+            font-weight: 400;
+            color: var(--text-color);
         }
 
         .social-media {
             display: flex;
             gap: 15px;
             align-items: center;
-            background-color: #151515;
-            padding: 15px;
-            border-radius: 6px;
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
         }
 
         .social-media span {
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             color: var(--text-secondary);
         }
 
         .social-link {
-            color: #fff;
+            color: var(--accent-color);
             text-decoration: none;
-            background-color: #333;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            transition: background-color 0.3s;
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            padding: 6px 16px;
+            border-radius: 0px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .social-link:hover {
             background-color: var(--accent-color);
+            color: #ffffff;
         }
 
         footer {
             text-align: center;
-            padding: 30px;
-            background-color: #000;
+            padding: 40px;
+            background-color: var(--bg-secondary);
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
         }
 
         @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
             nav {
-                display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
+                align-items: center;
+            }
+            .profile-card {
+                padding: 25px;
+                margin-bottom: 50px;
             }
             .social-media {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 12px;
             }
         }
     </style>
@@ -193,7 +238,7 @@
 <body>
 
     <header>
-        <h1>MAESTROS DE LA LUZ</h1>
+        <h1>Maestros de la Luz</h1>
         <nav>
             <a href="#leibovitz">Annie Leibovitz</a>
             <a href="#mccurry">Steve McCurry</a>
@@ -208,7 +253,7 @@
         <section id="leibovitz" class="profile-card">
             <div class="profile-header">
                 <h2>Annie Leibovitz</h2>
-                <div class="specialty">Fotografía de Retrato y Celebridades</div>
+                <div class="specialty">Retrato y Celebridades</div>
             </div>
             <p class="bio">
                 Es la retratista más famosa de nuestro tiempo. Fue la primera mujer en exponer su obra en la Galería Nacional de Retratos de Washington D.C. Es conocida por sus retratos íntimos y conceptuales de celebridades para revistas como <i>Rolling Stone</i>, <i>Vanity Fair</i> y <i>Vogue</i>. Su estilo combina una iluminación dramática con puestas en escena teatrales.
@@ -235,7 +280,7 @@
         <section id="mccurry" class="profile-card">
             <div class="profile-header">
                 <h2>Steve McCurry</h2>
-                <div class="specialty">Fotoperiodismo y Fotografía Documental</div>
+                <div class="specialty">Fotoperiodismo y Documental</div>
             </div>
             <p class="bio">
                 Miembro de la prestigiosa agencia Magnum Photos, McCurry es mundialmente reconocido por lograr capturar la esencia de la condición humana a través de sus viajes. Su trabajo abarca conflictos internacionales, culturas en extinción y tradiciones antiguas, destacando siempre por un uso magistral y vibrante del color.
@@ -260,7 +305,7 @@
         <section id="salgado" class="profile-card">
             <div class="profile-header">
                 <h2>Sebastião Salgado</h2>
-                <div class="specialty">Fotografía Socio-Documental y Paisaje</div>
+                <div class="specialty">Socio-Documental y Paisaje</div>
             </div>
             <p class="bio">
                 Fotógrafo brasileño famoso por sus proyectos a largo plazo que documentan las realidades de la pobreza, el trabajo manual y los paisajes vírgenes del planeta. Su inconfundible estilo en blanco y negro, lleno de texturas, matices épicos y una profunda empatía social, convierte sus imágenes en verdaderas obras de arte de denuncia universal.
@@ -310,7 +355,7 @@
         <section id="adams" class="profile-card">
             <div class="profile-header">
                 <h2>Ansel Adams</h2>
-                <div class="specialty">Fotografía de Paisaje y Conservacionismo</div>
+                <div class="specialty">Paisaje y Conservacionismo</div>
             </div>
             <p class="bio">
                 Famoso por sus majestuosas fotografías en blanco y negro de los paisajes del oeste de EE.UU., especialmente del Parque Nacional Yosemite. Desarrolló, junto a Fred Archer, el famoso <i>"Sistema de Zonas"</i>, una técnica que permitía calcular con precisión matemática la exposición y el revelado para conseguir un rango dinámico perfecto. Fue un pilar del ecologismo fotográfico.
