@@ -113,15 +113,26 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            transition: transform 0.3s, border-color 0.3s;
+            /* Transición suave para cuando entra y SALE el mouse */
+            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
         }
 
+        /* Animación limpia y de escala elegante al pasar el mouse */
         .photo-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
             border-color: var(--accent-color);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+            z-index: 10;
         }
 
-        /* Marcador de posición para las fotos reales */
+        /* Estilos para que las imágenes reales se adapten perfectamente */
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .photo-item span {
             font-size: 0.85rem;
             text-align: center;
@@ -194,7 +205,6 @@
 
     <div class="container">
 
-        <!-- FOTÓGRAFO 1 -->
         <section id="leibovitz" class="profile-card">
             <div class="profile-header">
                 <h2>Annie Leibovitz</h2>
@@ -206,7 +216,9 @@
             
             <div class="gallery-title">Obras Emblemáticas</div>
             <div class="gallery">
-                <div class="photo-item"><span>John Lennon y Yoko Ono (1980)</span></div>
+                <div class="photo-item">
+                    <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
+                </div>
                 <div class="photo-item"><span>Demi Moore embarazada (1991)</span></div>
                 <div class="photo-item"><span>Whoopi Goldberg en tina de leche</span></div>
                 <div class="photo-item"><span>Marilyn Manson y Rose McGowan</span></div>
@@ -220,7 +232,6 @@
             </div>
         </section>
 
-        <!-- FOTÓGRAFO 2 -->
         <section id="mccurry" class="profile-card">
             <div class="profile-header">
                 <h2>Steve McCurry</h2>
@@ -246,7 +257,6 @@
             </div>
         </section>
 
-        <!-- FOTÓGRAFO 3 -->
         <section id="salgado" class="profile-card">
             <div class="profile-header">
                 <h2>Sebastião Salgado</h2>
@@ -272,7 +282,6 @@
             </div>
         </section>
 
-        <!-- FOTÓGRAFO 4 -->
         <section id="cartier" class="profile-card">
             <div class="profile-header">
                 <h2>Henri Cartier-Bresson</h2>
@@ -298,7 +307,6 @@
             </div>
         </section>
 
-        <!-- FOTÓGRAFO 5 -->
         <section id="adams" class="profile-card">
             <div class="profile-header">
                 <h2>Ansel Adams</h2>
