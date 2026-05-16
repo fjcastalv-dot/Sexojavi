@@ -113,19 +113,14 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            /* Transición suave para cuando entra y SALE el mouse */
-            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        /* Animación limpia y de escala elegante al pasar el mouse */
         .photo-item:hover {
-            transform: scale(1.08);
+            transform: scale(1.04);
             border-color: var(--accent-color);
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
-            z-index: 10;
         }
 
-        /* Estilos para que las imágenes reales se adapten perfectamente */
         .photo-item img {
             width: 100%;
             height: 100%;
@@ -138,6 +133,42 @@
             text-align: center;
             padding: 10px;
             color: var(--text-secondary);
+        }
+
+        /* --- CAPA FLOTANTE DE PANTALLA COMPLETA DIRECTA (SIN ANIMACIÓN) --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            /* Controla que aparezca instantáneamente el fondo */
+            transition: opacity 0.1s ease; 
+            cursor: zoom-out;
+        }
+
+        /* Estado activo al hacer clic */
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* La imagen en grande al 90% sin transiciones de escala */
+        .lightbox-overlay img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
         }
 
         .social-media {
@@ -216,7 +247,7 @@
             
             <div class="gallery-title">Obras Emblemáticas</div>
             <div class="gallery">
-                <div class="photo-item">
+                <div class="photo-item zoomable">
                     <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
                 </div>
                 <div class="photo-item"><span>Demi Moore embarazada (1991)</span></div>
@@ -288,7 +319,7 @@
                 <div class="specialty">Padre del Fotoperiodismo Moderno</div>
             </div>
             <p class="bio">
-                Considerado el fotógrafo más importante del siglo XX. Co-fundador de la Agencia Magnum, teorizó y popularizó el concepto del <b>"instante decisivo"</b>: ese milisegundo exacto donde la forma, la geometría y la emoción se alinean para contar una historia perfecta. Su discreción con su cámara Leica cambió la fotografía callejera para siempre.
+                Considerado el fotógrafo más importante del siglo XX. Co-fundador de la Agencia Magnum, teorizó y popularizó el concept del <b>"instante decisivo"</b>: ese milisegundo exacto donde la forma, la geometría y la emoción se alinean para contar una historia perfecta. Su discreción con su cámara Leica cambió la fotografía callejera para siempre.
             </p>
             
             <div class="gallery-title">Obras Emblemáticas</div>
@@ -334,9 +365,36 @@
 
     </div>
 
+    <div class="lightbox-overlay" id="global-lightbox">
+        <img src="" alt="Imagen Ampliada" id="lightbox-img">
+    </div>
+
     <footer>
         <p>&copy; 2026 - Aplicación Web de Maestros de la Fotografía Mundial</p>
     </footer>
+
+    <script>
+        const lightbox = document.getElementById('global-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const zoomElements = document.querySelectorAll('.zoomable');
+
+        // Abre la imagen instantáneamente al hacer clic
+        zoomElements.forEach(element => {
+            element.addEventListener('click', () => {
+                const innerImg = element.querySelector('img');
+                if (innerImg) {
+                    lightboxImg.src = innerImg.src;
+                    lightbox.classList.add('active');
+                }
+            });
+        });
+
+        // Cierra el visualizador al volver a hacer clic
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            lightboxImg.src = '';
+        });
+    </script>
 
 </body>
 </html>
