@@ -113,7 +113,7 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .photo-item:hover {
@@ -135,63 +135,46 @@
             color: var(--text-secondary);
         }
 
-        /* ==========================================================================
-           EFECTO ZOOM PANTALLA COMPLETA Y DIFUMINADO (CSS PURO CON CHECKBOX)
-           ========================================================================== */
-        
-        /* Ocultamos el checkbox que controlará el estado */
-        .zoom-control {
-            display: none;
-        }
-
-        /* Contenedor especial para la imagen interactiva */
-        .zoom-box {
-            width: 100%;
-            height: 100%;
-            display: block;
-            cursor: zoom-in;
-        }
-
-        /* Cuando el usuario hace clic, el contenedor se transforma en la capa gigante */
-        .zoom-control:checked ~ .zoom-box {
+        /* --- CAPA FLOTANTE PARA LA FOTO EN GRANDE (LIGHTBOX) --- */
+        .lightbox-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.75);
-            /* Difuminado de fondo ultra limpio */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            /* Difuminado de fondo premium */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
             cursor: zoom-out;
         }
 
-        /* La imagen dentro de la capa gigante toma proporciones de pantalla completa */
-        .zoom-control:checked ~ .zoom-box img {
-            width: auto;
-            height: auto;
+        /* Se activa al hacer clic en la foto */
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* La imagen ocupa casi toda la pantalla de forma escalada */
+        .lightbox-overlay img {
             max-width: 90vw;
             max-height: 85vh;
             object-fit: contain;
             border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-            animation: fadeInZoom 0.25s ease-out forwards;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
         }
 
-        /* Animación sutil de entrada para la foto */
-        @keyframes fadeInZoom {
-            from {
-                transform: scale(0.95);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        .lightbox-overlay.active img {
+            transform: scale(1);
         }
 
         .social-media {
@@ -271,12 +254,9 @@
             
             <div class="gallery-title">Obras Emblemáticas</div>
             <div class="gallery">
-                <!-- Tarjeta con la imagen y el disparador CSS sin usar JS -->
-                <div class="photo-item">
-                    <input type="checkbox" id="zoom-img-1" class="zoom-control">
-                    <label for="zoom-img-1" class="zoom-box">
-                        <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
-                    </label>
+                <!-- Se añade una clase para identificarla fácilmente en el script -->
+                <div class="photo-item zoomable">
+                    <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
                 </div>
                 <div class="photo-item"><span>Demi Moore embarazada (1991)</span></div>
                 <div class="photo-item"><span>Whoopi Goldberg en tina de leche</span></div>
@@ -324,7 +304,7 @@
                 <div class="specialty">Fotografía Socio-Documental y Paisaje</div>
             </div>
             <p class="bio">
-                Fotógrafo brasileño famoso por sus proyectos a largo plazo que documentan las realidades de la pobreza, el trabajo manual y los paisajes vírgenes del planeta. Su inconfundible estilo en blanco y negro, lleno de texturas, matices épicos y una profunda empatía social, convierte sus imágenes en verdaderas obras de arte de denuncia universal.
+                Fotógrafo brasileño famoso por sus proyectos a largo plazo que documentan las realidades de la pobreza, el trabajo manual y los landscapes vírgenes del planeta. Su inconfundible estilo en blanco y negro, lleno de texturas, matices épicos y una profunda empatía social, convierte sus imágenes en verdaderas obras de arte de denuncia universal.
             </p>
             
             <div class="gallery-title">Obras Emblemáticas</div>
@@ -397,9 +377,39 @@
 
     </div>
 
+    <!-- CAPA EXTERNA DEL LIGHTBOX -->
+    <div class="lightbox-overlay" id="global-lightbox">
+        <img src="" alt="Imagen Ampliada" id="lightbox-img">
+    </div>
+
     <footer>
         <p>&copy; 2026 - Aplicación Web de Maestros de la Fotografía Mundial</p>
     </footer>
+
+    <!-- INTERACTIVIDAD SIN ERRORES EN LOCAL -->
+    <script>
+        const lightbox = document.getElementById('global-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const zoomElements = document.querySelectorAll('.zoomable');
+
+        // Al hacer clic en la tarjeta de la foto
+        zoomElements.forEach(element => {
+            element.addEventListener('click', () => {
+                const innerImg = element.querySelector('img');
+                if (innerImg) {
+                    lightboxImg.src = innerImg.src;
+                    lightbox.classList.add('active');
+                }
+            });
+        });
+
+        // Al hacer clic en cualquier parte de la capa gigante, se cierra al instante
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            // Limpieza rápida para evitar parpadeos visuales al abrir otra
+            setTimeout(() => { lightboxImg.src = ''; }, 300);
+        });
+    </script>
 
 </body>
 </html>
