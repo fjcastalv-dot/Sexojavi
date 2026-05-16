@@ -135,7 +135,7 @@
             color: var(--text-secondary);
         }
 
-        /* --- CAPA FLOTANTE DE PANTALLA COMPLETA DIRECTA (SIN ANIMACIÓN) --- */
+        /* --- CAPA FLOTANTE CON DIFUMINADO --- */
         .lightbox-overlay {
             position: fixed;
             top: 0;
@@ -151,9 +151,9 @@
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
-            /* Controla que aparezca instantáneamente el fondo */
             transition: opacity 0.1s ease; 
             cursor: zoom-out;
+            overflow: auto; /* Permite scroll si la pantalla del usuario es muy pequeña para el 200% */
         }
 
         /* Estado activo al hacer clic */
@@ -162,10 +162,11 @@
             pointer-events: auto;
         }
 
-        /* La imagen en grande al 90% sin transiciones de escala */
+        /* Configuración para aumentar el tamaño un 200% */
         .lightbox-overlay img {
-            max-width: 90vw;
-            max-height: 85vh;
+            width: 200%;
+            height: auto;
+            max-width: 95vw; /* Evita que se desborde exageradamente de los límites laterales del navegador */
             object-fit: contain;
             border-radius: 4px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
@@ -319,7 +320,7 @@
                 <div class="specialty">Padre del Fotoperiodismo Moderno</div>
             </div>
             <p class="bio">
-                Considerado el fotógrafo más importante del siglo XX. Co-fundador de la Agencia Magnum, teorizó y popularizó el concept del <b>"instante decisivo"</b>: ese milisegundo exacto donde la forma, la geometría y la emoción se alinean para contar una historia perfecta. Su discreción con su cámara Leica cambió la fotografía callejera para siempre.
+                Considerado el fotógrafo más importante del siglo XX. Co-fundador de la Agencia Magnum, teorizó y popularizó el concepto del <b>"instante decisivo"</b>: ese milisegundo exacto donde la forma, la geometría y la emoción se alinean para contar una historia perfecta. Su discreción con su cámara Leica cambió la fotografía callejera para siempre.
             </p>
             
             <div class="gallery-title">Obras Emblemáticas</div>
