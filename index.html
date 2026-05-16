@@ -20,7 +20,6 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
-            transition: filter 0.3s ease;
         }
 
         header {
@@ -114,7 +113,7 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid #333;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .photo-item:hover {
@@ -136,52 +135,63 @@
             color: var(--text-secondary);
         }
 
-        /* --- ESTILOS DEL LIGHTBOX (PANTALLA COMPLETA Y DIFUMINADO) --- */
-        .lightbox-overlay {
+        /* ==========================================================================
+           EFECTO ZOOM PANTALLA COMPLETA Y DIFUMINADO (CSS PURO CON CHECKBOX)
+           ========================================================================== */
+        
+        /* Ocultamos el checkbox que controlará el estado */
+        .zoom-control {
+            display: none;
+        }
+
+        /* Contenedor especial para la imagen interactiva */
+        .zoom-box {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: zoom-in;
+        }
+
+        /* Cuando el usuario hace clic, el contenedor se transforma en la capa gigante */
+        .zoom-control:checked ~ .zoom-box {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            /* El truco del difuminado de fondo */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px); 
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.75);
+            /* Difuminado de fondo ultra limpio */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+            z-index: 9999;
+            cursor: zoom-out;
         }
 
-        /* Cuando el lightbox está activo */
-        .lightbox-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .lightbox-overlay img {
-            max-width: 90%;
-            max-height: 85%;
+        /* La imagen dentro de la capa gigante toma proporciones de pantalla completa */
+        .zoom-control:checked ~ .zoom-box img {
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: 85vh;
             object-fit: contain;
             border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            transform: scale(0.9);
-            transition: transform 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            animation: fadeInZoom 0.25s ease-out forwards;
         }
 
-        .lightbox-overlay.active img {
-            transform: scale(1);
-        }
-
-        /* Texto descriptivo dentro del lightbox si es un marcador */
-        .lightbox-text {
-            color: #fff;
-            font-size: 1.5rem;
-            text-align: center;
-            padding: 20px;
+        /* Animación sutil de entrada para la foto */
+        @keyframes fadeInZoom {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .social-media {
@@ -261,8 +271,12 @@
             
             <div class="gallery-title">Obras Emblemáticas</div>
             <div class="gallery">
+                <!-- Tarjeta con la imagen y el disparador CSS sin usar JS -->
                 <div class="photo-item">
-                    <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
+                    <input type="checkbox" id="zoom-img-1" class="zoom-control">
+                    <label for="zoom-img-1" class="zoom-box">
+                        <img src="Annie Leibovitz John Lenon.jpg" alt="John Lennon y Yoko Ono (1980) por Annie Leibovitz">
+                    </label>
                 </div>
                 <div class="photo-item"><span>Demi Moore embarazada (1991)</span></div>
                 <div class="photo-item"><span>Whoopi Goldberg en tina de leche</span></div>
@@ -383,59 +397,9 @@
 
     </div>
 
-    <!-- ESTRUCTURA DEL LIGHTBOX (OCULTA POR DEFECTO) -->
-    <div class="lightbox-overlay" id="lightbox">
-        <!-- Aquí se inyectará dinámicamente el contenido (la imagen o el texto) -->
-    </div>
-
     <footer>
         <p>&copy; 2026 - Aplicación Web de Maestros de la Fotografía Mundial</p>
     </footer>
-
-    <!-- INTERACTIVIDAD CON JAVASCRIPT -->
-    <script>
-        const lightbox = document.getElementById('lightbox');
-        const photoItems = document.querySelectorAll('.photo-item');
-
-        photoItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                const span = item.querySelector('span');
-
-                // Limpiamos el contenido previo del lightbox
-                lightbox.innerHTML = '';
-
-                if (img) {
-                    // Si el contenedor tiene una imagen real, la clonamos para el lightbox
-                    const newImg = document.createElement('img');
-                    newImg.src = img.src;
-                    newImg.alt = img.alt;
-                    lightbox.appendChild(newImg);
-                } else if (span) {
-                    // Si aún es un marcador de posición, mostramos el texto grande
-                    const newText = document.createElement('div');
-                    newText.className = 'lightbox-text';
-                    newText.textContent = span.textContent;
-                    lightbox.appendChild(newText);
-                }
-
-                // Activamos el lightbox con una transición fluida
-                lightbox.classList.add('active');
-            });
-        });
-
-        // Cerrar el lightbox al hacer clic en el fondo difuminado
-        lightbox.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
-
-        // Cerrar también presionando la tecla Escape (Esc)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                lightbox.classList.remove('active');
-            }
-        });
-    </script>
 
 </body>
 </html>
